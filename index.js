@@ -20,6 +20,10 @@ function preload()
 
   pikachu = loadImage("https://i.ibb.co/XbRnSqQ/square-PNG19.png");
 
+  //Emotion Recognition
+  happyFace = loadImage("https://i.ibb.co/jLJmj4q/1000584-copy-of-smiling-with-closed-eyes-emoji-free-download-ios-emojis-icon-download-free.png");
+  sadFace = loadImage("https://i.ibb.co/JrDdZvH/1000525-crying-sad-emoji-icon-file-hd.png");
+
   // Dog Face Filter assets
   imgDogEarRight = loadImage("https://i.ibb.co/bFJf33z/dog-ear-right.png");
   imgDogEarLeft = loadImage("https://i.ibb.co/dggwZ1q/dog-ear-left.png");
@@ -85,17 +89,24 @@ function draw()
 
 function getEmotion() {
   const positions = faceTracker.getCurrentPosition();
-  if(positions !== false) {
+  if (positions !== false) {
     const mouth = Math.abs(positions[60][0] - positions[57][0]);
-    if(mouth < 0.3) {
-      push();
-      const wx = Math.abs(positions[13][0] - positions[1][0]) * 1.2; // The width is given by the face width, based on the geometry
-      const wy = Math.abs(positions[7][1] - Math.min(positions[16][1], positions[20][1])) * 1.2; // The height is given by the distance from nose to chin, times 2
-      translate(-wx/2, -wy/2);
-      image(imgSpidermanMask, positions[62][0], positions[70][1], wx, wy); // Show the mask at the center of the face
-      console.log('wx', wx);
-      pop();
-    }
+      if (mouth > 0.3) { // check length of mouth to show image
+        push();
+        const wx = Math.abs(positions[13][0] - positions[1][0]) * 1.2; // The width is given by the face width, based on the geometry
+        const wy = Math.abs(positions[7][1] - Math.min(positions[16][1], positions[20][1])) * 1.2; // The height is given by the distance from nose to chin, times 2
+        translate(-wx/2, -wy/2);
+        image(happyFace, positions[62][0], positions[70][1], wx, wy); // Show the mask at the center of the face
+        pop();
+      }
+      else if (mouth < 0.3) { // check length of mouth to show image
+        push();
+        const wx = Math.abs(positions[13][0] - positions[1][0]) * 1.2; // The width is given by the face width, based on the geometry
+        const wy = Math.abs(positions[7][1] - Math.min(positions[16][1], positions[20][1])) * 1.2; // The height is given by the distance from nose to chin, times 2
+        translate(-wx/2, -wy/2);
+        image(sadFace, positions[62][0], positions[70][1], wx, wy); // Show the mask at the center of the face
+        pop();
+      }
   }
 }
 
@@ -110,7 +121,6 @@ function drawSpidermanMask()
     const wy = Math.abs(positions[7][1] - Math.min(positions[16][1], positions[20][1])) * 1.2; // The height is given by the distance from nose to chin, times 2
     translate(-wx/2, -wy/2);
     image(imgSpidermanMask, positions[62][0], positions[70][1], wx, wy); // Show the mask at the center of the face
-    console.log('wx', wx);
     pop();
   }
 }
