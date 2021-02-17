@@ -1,0 +1,28 @@
+.header-content a {
+    font-size: 30px;
+    color: rgb(88, 88, 88);
+    margin-left: 5px;
+    transition: .4s;
+}
+
+.header-content a:hover {
+    color: rgb(131, 131, 131);
+    border-radius: 50%;
+}
+
+.header-banner {
+    background-color: #000;
+    height: 70px;
+}
+
+#container {
+	margin: 0px auto;
+	width: 500px;
+	height: 375px;
+	border: 10px #333 solid;
+}
+#videoElement {
+	width: 500px;
+	height: 375px;
+	background-color: #666;
+}
