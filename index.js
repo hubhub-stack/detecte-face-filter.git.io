@@ -75,11 +75,27 @@ function draw()
   // apply filter based on choice
   switch(selected)
   {
-    case '-1': break;
+    case '-1': getEmotion(); break;
     case '0': drawSpidermanMask(); break;
     case '1': drawDogFace(); break;
     case '2': drawBillGate(); break;
     case '3': drawPikachu(); break;
+  }
+}
+
+function getEmotion() {
+  const positions = faceTracker.getCurrentPosition();
+  if(positions !== false) {
+    const mouth = Math.abs(positions[60][0] - positions[57][0]);
+    if(mouth < 0.3) {
+      push();
+      const wx = Math.abs(positions[13][0] - positions[1][0]) * 1.2; // The width is given by the face width, based on the geometry
+      const wy = Math.abs(positions[7][1] - Math.min(positions[16][1], positions[20][1])) * 1.2; // The height is given by the distance from nose to chin, times 2
+      translate(-wx/2, -wy/2);
+      image(imgSpidermanMask, positions[62][0], positions[70][1], wx, wy); // Show the mask at the center of the face
+      console.log('wx', wx);
+      pop();
+    }
   }
 }
 
