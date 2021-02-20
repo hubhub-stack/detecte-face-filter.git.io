@@ -84,6 +84,7 @@ function draw()
     case '1': drawDogFace(); break;
     case '2': drawBillGate(); break;
     case '3': drawPikachu(); break;
+    default: getEmotion(); 
   }
 }
 
