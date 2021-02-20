@@ -87,11 +87,22 @@ function draw()
   }
 }
 
+var canvasInput = document.getElementById('drawCanvas');
+var cc = canvasInput.getContext('2d');
+function drawLoop() {
+  requestAnimationFrame(drawLoop);
+  cc.clearRect(0, 0, canvasInput.width, canvasInput.height);
+  faceTracker.draw(canvasInput);
+}
+drawLoop();
+
 function getEmotion() {
   const positions = faceTracker.getCurrentPosition();
+  const emotion = document.getElementById('emotion-text');
   if (positions !== false) {
     const mouth = Math.abs(positions[60][0] - positions[57][0]);
       if (mouth > 0.3) { // check length of mouth to show image
+        emotion.innerHTML = 'are you happy?';
         push();
         const wx = Math.abs(positions[13][0] - positions[1][0]) * 1.2; // The width is given by the face width, based on the geometry
         const wy = Math.abs(positions[7][1] - Math.min(positions[16][1], positions[20][1])) * 1.2; // The height is given by the distance from nose to chin, times 2
@@ -100,6 +111,7 @@ function getEmotion() {
         pop();
       }
       else if (mouth < 0.3) { // check length of mouth to show image
+        emotion.innerHTML = 'are you sad?';
         push();
         const wx = Math.abs(positions[13][0] - positions[1][0]) * 1.2; // The width is given by the face width, based on the geometry
         const wy = Math.abs(positions[7][1] - Math.min(positions[16][1], positions[20][1])) * 1.2; // The height is given by the distance from nose to chin, times 2
@@ -155,7 +167,6 @@ function drawBillGate()
   }
 }
 
-// Dog Face Filter
 function drawDogFace()
 {
   const positions = faceTracker.getCurrentPosition();
